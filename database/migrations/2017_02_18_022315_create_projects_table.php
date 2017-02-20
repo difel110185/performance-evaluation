@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRatingValueTable extends Migration
+class CreateProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateRatingValueTable extends Migration
      */
     public function up()
     {
-        Schema::create('rating_value', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->unsignedInteger('rating_scale_id');
-            $table->text('description');
+            $table->text('responsible_obs');
             $table->timestamps();
             $table->softDeletes();
             $table->unsignedInteger('created_by');
@@ -25,7 +24,6 @@ class CreateRatingValueTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('rating_scale_id')->references('id')->on('rating_scale');
         });
     }
 
@@ -36,6 +34,6 @@ class CreateRatingValueTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rating_value');
+        Schema::dropIfExists('project');
     }
 }

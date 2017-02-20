@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFunctionSkillTable extends Migration
+class CreateOrganizationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateFunctionSkillTable extends Migration
      */
     public function up()
     {
-        Schema::create('function_skill', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->unsignedInteger('function_id');
-            $table->text('description');
             $table->timestamps();
             $table->softDeletes();
             $table->unsignedInteger('created_by');
@@ -25,7 +23,6 @@ class CreateFunctionSkillTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('function_id')->references('id')->on('function');
         });
     }
 
@@ -36,6 +33,6 @@ class CreateFunctionSkillTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('function_skill');
+        Schema::dropIfExists('organization');
     }
 }

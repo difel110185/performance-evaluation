@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmployeeTable extends Migration
+class CreateRatingScalesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateEmployeeTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee', function (Blueprint $table) {
+        Schema::create('rating_scales', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->unsignedInteger('organization_unit_id');
-            $table->unsignedInteger('function_id');
+            $table->text('description');
             $table->timestamps();
             $table->softDeletes();
             $table->unsignedInteger('created_by');
@@ -25,8 +24,6 @@ class CreateEmployeeTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('organization_unit_id')->references('id')->on('organization_unit');
-            $table->foreign('function_id')->references('id')->on('function');
         });
     }
 
@@ -37,6 +34,6 @@ class CreateEmployeeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('rating_scale');
     }
 }

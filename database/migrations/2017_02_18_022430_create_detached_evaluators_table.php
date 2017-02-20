@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectTable extends Migration
+class CreateDetachedEvaluatorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('project', function (Blueprint $table) {
+        Schema::create('detached_evaluators', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->text('responsible_obs');
+            $table->unsignedInteger('evaluated_id');
+            $table->unsignedInteger('evaluator_id');
             $table->timestamps();
             $table->softDeletes();
             $table->unsignedInteger('created_by');
@@ -24,6 +24,8 @@ class CreateProjectTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
+            $table->foreign('evaluated_id')->references('id')->on('employees');
+            $table->foreign('evaluator_id')->references('id')->on('employees');
         });
     }
 
@@ -34,6 +36,6 @@ class CreateProjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project');
+        Schema::dropIfExists('detached_evaluator');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFunctionTable extends Migration
+class CreateFunctionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFunctionTable extends Migration
      */
     public function up()
     {
-        Schema::create('function', function (Blueprint $table) {
+        Schema::create('functions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('organization_id');
@@ -25,7 +25,7 @@ class CreateFunctionTable extends Migration
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->foreign('organization_id')->references('id')->on('organization');
+            $table->foreign('organization_id')->references('id')->on('organizations');
         });
     }
 
