@@ -164,13 +164,12 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * package service providers...
+         * Package Service Providers...
          */
-
-        //
+        Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
-         * application service providers...
+         * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -178,8 +177,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-
-        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
     ],
 
     /*
@@ -199,6 +196,7 @@ return [
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
