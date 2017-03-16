@@ -1,0 +1,1 @@
+Resolver problema do created_by. Eventos do model não estão batendo no Observer declarado no EventServiceProvider.
