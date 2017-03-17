@@ -23,7 +23,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Organization::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Organization::class, function (Faker\Generator $faker) {
     $user = factory(App\User::class)->create();
 
     return [

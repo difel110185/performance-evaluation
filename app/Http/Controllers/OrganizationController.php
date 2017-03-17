@@ -9,17 +9,11 @@ use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
 {
-
     public function index()
     {
         return new SuccessResponse('', ['organizations' => Organization::all()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
@@ -43,48 +37,52 @@ class OrganizationController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Organization  $organization
-     * @return \Illuminate\Http\Response
-     */
     public function show(Organization $organization)
     {
-        //
+        try {
+            $data = [ 'organization' => $organization];
+
+            return new SuccessResponse('', $data);
+        }
+        catch (\Exception $e){
+            return new ErrorResponse($e);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Organization  $organization
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Organization $organization)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Organization  $organization
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Organization $organization)
     {
-        //
+        try {
+            $this->validate(request(), [
+                'name' => 'required'
+            ]);
+
+            $organization->fill(request(['name']));
+
+            $organization->save();
+
+            $data = [ 'organization' => $organization];
+
+            return new SuccessResponse('Organization updated successfully', $data);
+        }
+        catch (\Exception $e){
+            return new ErrorResponse($e);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Organization  $organization
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Organization $organization)
     {
-        //
+        try {
+            $organization->delete();
+
+            return new SuccessResponse('Organization deleted successfully');
+        }
+        catch (\Exception $e){
+            return new ErrorResponse($e);
+        }
     }
 }
