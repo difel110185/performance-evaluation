@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\ErrorResponse;
+use App\Http\ServerErrorResponse;
 use App\Http\SuccessResponse;
+use App\Http\ValidationErrorResponse;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class OrganizationController extends Controller
 {
+    protected $validationRules = [
+        'name' => 'required'
+    ];
+
     public function index()
     {
         return new SuccessResponse('', ['organizations' => Organization::all()]);
@@ -22,9 +28,7 @@ class OrganizationController extends Controller
     public function store(Request $request)
     {
         try {
-            $this->validate(request(), [
-                'name' => 'required'
-            ]);
+            $this->validate(request(), $this->validationRules);
 
             $org = Organization::create(request(['name']));
 
@@ -32,8 +36,11 @@ class OrganizationController extends Controller
 
             return new SuccessResponse('Organization created successfully', $data);
         }
+        catch (ValidationException $e){
+            return new ValidationErrorResponse($e);
+        }
         catch (\Exception $e){
-            return new ErrorResponse($e);
+            return new ServerErrorResponse($e);
         }
     }
 
@@ -45,7 +52,7 @@ class OrganizationController extends Controller
             return new SuccessResponse('', $data);
         }
         catch (\Exception $e){
-            return new ErrorResponse($e);
+            return new ServerErrorResponse($e);
         }
     }
 
@@ -57,9 +64,7 @@ class OrganizationController extends Controller
     public function update(Request $request, Organization $organization)
     {
         try {
-            $this->validate(request(), [
-                'name' => 'required'
-            ]);
+            $this->validate(request(), $this->validationRules);
 
             $organization->fill(request(['name']));
 
@@ -69,8 +74,11 @@ class OrganizationController extends Controller
 
             return new SuccessResponse('Organization updated successfully', $data);
         }
+        catch (ValidationException $e){
+            return new ValidationErrorResponse($e);
+        }
         catch (\Exception $e){
-            return new ErrorResponse($e);
+            return new ServerErrorResponse($e);
         }
     }
 
@@ -82,7 +90,7 @@ class OrganizationController extends Controller
             return new SuccessResponse('Organization deleted successfully');
         }
         catch (\Exception $e){
-            return new ErrorResponse($e);
+            return new ServerErrorResponse($e);
         }
     }
 }

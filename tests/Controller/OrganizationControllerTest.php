@@ -12,14 +12,12 @@ class OrganizationControllerTest extends TestCase
     use DatabaseTransactions;
 
     protected $user;
-    protected $otherUser;
 
     protected function setUp()
     {
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->otherUser = factory(User::class)->create();
     }
 
     public function testListOrganizations () {
@@ -54,6 +52,18 @@ class OrganizationControllerTest extends TestCase
         $this->assertNotNull(Organization::find($newOrganizationId));
     }
 
+    public function testCreateOrganizationWithInvalidData () {
+        $this->actingAs($this->user);
+
+        $newOrganization = ['name_test' => 'Organization Name'];
+
+        $response = $this->post(route('organizations.store'), $newOrganization);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonFragment(['message' => 'The given data failed to pass validation.']);
+    }
+
     public function testUpdateOrganization () {
         $this->actingAs($this->user);
 
@@ -75,6 +85,23 @@ class OrganizationControllerTest extends TestCase
                 ]
             ])
             ->assertJsonFragment(['name' => $newName]);
+    }
+
+    public function testUpdateOrganizationWithInvalidData () {
+        $this->actingAs($this->user);
+
+        $org = factory(Organization::class)->create();
+
+        $newName = 'Organization Updated Name';
+        $updatedOrganization = [
+            'invalid_field' => $newName
+        ];
+
+        $response = $this->put(route('organizations.update', ['id' => $org->id]), $updatedOrganization);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonFragment(['message' => 'The given data failed to pass validation.']);
     }
 
     public function testUpdateOrganizationWithInvalidId () {
